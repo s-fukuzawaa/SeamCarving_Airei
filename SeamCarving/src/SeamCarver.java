@@ -23,9 +23,21 @@ public class SeamCarver
 
 	public double energy(int x, int y)
 	{
-		throw new UnsupportedOperationException();
+		return Math.sqrt(delta2(x,y)[0]+delta2(x,y)[1]);
+		
 	}
-
+	
+	private double[] delta2(int x, int y)
+	{
+		double[] result= new double[2];
+		//for x change x-1, x+1
+		result[0]=Math.pow(pic.get(x-1, y).getRed()-pic.get(x+1, y).getRed(), 2)+Math.pow(pic.get(x-1, y).getGreen()-pic.get(x+1, y).getGreen(), 2)+
+				Math.pow(pic.get(x-1, y).getBlue()-pic.get(x+1, y).getBlue(), 2);
+		result[1]=Math.pow(pic.get(x, y-1).getRed()-pic.get(x, y+1).getRed(), 2)+Math.pow(pic.get(x, y-1).getGreen()-pic.get(x, y+1).getGreen(), 2)+
+				Math.pow(pic.get(x, y-1).getBlue()-pic.get(x, y+1).getBlue(), 2);
+		
+		return result;
+	}
 	public int[] findHorizontalSeam()
 	{
 		throw new UnsupportedOperationException();
