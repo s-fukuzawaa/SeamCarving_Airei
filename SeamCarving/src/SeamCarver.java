@@ -1,22 +1,24 @@
 public class SeamCarver
 {
+	private SmC_Picture pic;
 	public SeamCarver(SmC_Picture pictureP)
 	{
+		pic=pictureP;
 	}
 
 	public SmC_Picture picture()
 	{
-		throw new UnsupportedOperationException();
+		return pic;
 	}
 
 	public int width()
 	{
-		throw new UnsupportedOperationException();
+		return pic.width();
 	}
 
 	public int height()
 	{
-		throw new UnsupportedOperationException();
+		return pic.height();
 	}
 
 	public double energy(int x, int y)
