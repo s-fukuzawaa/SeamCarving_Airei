@@ -1,3 +1,7 @@
+import java.util.ArrayList;
+
+import SCHashTable.Node;
+
 public class SeamCarver
 {
 	private SmC_Picture pic;
@@ -45,6 +49,57 @@ public class SeamCarver
 				Math.pow(pic.get(x, y-1).getBlue()-pic.get(x, y+1).getBlue(), 2);
 		
 		return result;
+	}
+	private class Node
+	{	 
+		private int key;
+		private int value;
+		public Node(int key, int value)
+		{
+			this.key = key;
+			this.value = value;
+		}
+		
+	}
+	private int[] seam()
+	{
+		
+		double[][] distTo= new double[width()][height()];
+		Node[] prev= new Node[width()*height()];
+		
+		
+		double[][] energy= new double[width()][height()];
+		ArrayList<Node> topological= new ArrayList<Node>();
+		for(int i=0; i<width(); i++)
+		{
+			for(int j=0; j<height(); j++)
+			{
+				distTo[i][j]=Integer.MAX_VALUE;
+				prev[i+j]=new Node(-1,-1);
+				energy[i][j]=energy(i,j);
+				topological.add(new Node(i,j));
+			}
+		}
+	
+		while(topological.iterator().hasNext())
+		{
+			Node next=topological.iterator().next();
+			//check (x,y+1) (x+1,y+1), (x-1, y+1)
+			for(int i=-1; i<2; i++)
+			{
+				Node use=new Node(next.key+i,next.value+1);
+				double dis= distTo[next.key][next.value]+energy(next.key+i,next.value+1);
+				if(distTo[]>dis)
+			}
+			
+			
+			
+		}
+		
+		
+		
+		
+		
 	}
 	public int[] findHorizontalSeam()
 	{
