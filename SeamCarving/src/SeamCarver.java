@@ -1,7 +1,5 @@
 import java.util.ArrayList;
 
-import SCHashTable.Node;
-
 public class SeamCarver
 {
 	private SmC_Picture pic;
@@ -65,7 +63,7 @@ public class SeamCarver
 	{
 		
 		double[][] distTo= new double[width()][height()];
-		Node[] prev= new Node[width()*height()];
+		int[] prev= new int[width()*height()];
 		
 		
 		double[][] energy= new double[width()][height()];
@@ -75,7 +73,7 @@ public class SeamCarver
 			for(int j=0; j<height(); j++)
 			{
 				distTo[i][j]=Integer.MAX_VALUE;
-				prev[i+j]=new Node(-1,-1);
+				prev[i+j]=-1;
 				energy[i][j]=energy(i,j);
 				topological.add(new Node(i,j));
 			}
@@ -89,16 +87,61 @@ public class SeamCarver
 			{
 				Node use=new Node(next.key+i,next.value+1);
 				double dis= distTo[next.key][next.value]+energy(next.key+i,next.value+1);
-				if(distTo[]>dis)
+				if(distTo[next.key+i][next.value+1]>dis)
+				{
+					distTo[next.key+i][next.value+1]=dis;
+					prev[next.key+i+next.value+1]=next.key;
+				}
 			}
 			
 			
 			
 		}
 		
+		return prev;
 		
 		
 		
+	}
+	private int[] hori()
+	{
+		double[][] distTo= new double[height()][width()];
+		int[] prev= new int[width()*height()];
+		
+		
+		double[][] energy= new double[height()][width()];
+		ArrayList<Node> topological= new ArrayList<Node>();
+		for(int i=0; i<width(); i++)
+		{
+			for(int j=0; j<height(); j++)
+			{
+				distTo[i][j]=Integer.MAX_VALUE;
+				prev[i+j]=-1;
+				energy[i][j]=energy(i,j);
+				topological.add(new Node(i,j));
+			}
+		}
+	
+		while(topological.iterator().hasNext())
+		{
+			Node next=topological.iterator().next();
+			//check (x,y+1) (x+1,y+1), (x-1, y+1)
+			for(int i=-1; i<2; i++)
+			{
+				Node use=new Node(next.key+i,next.value+1);
+				double dis= distTo[next.key][next.value]+energy(next.key+i,next.value+1);
+				if(distTo[next.key+i][next.value+1]>dis)
+				{
+					distTo[next.key+i][next.value+1]=dis;
+					prev[next.key+i+next.value+1]=next.key;
+				}
+			}
+			
+			
+			
+		}
+		
+		return prev;
 		
 	}
 	public int[] findHorizontalSeam()
@@ -108,7 +151,7 @@ public class SeamCarver
 
 	public int[] findVerticalSeam()
 	{
-		throw new UnsupportedOperationException();
+		return seam();
 	}
 
 	public void removeHorizontalSeam(int[] a)
@@ -120,4 +163,6 @@ public class SeamCarver
 	{
 		throw new UnsupportedOperationException();
 	}
+	
+	
 }
