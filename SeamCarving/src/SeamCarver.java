@@ -48,97 +48,48 @@ public class SeamCarver
 		
 		return result;
 	}
-	private class Node
-	{	 
-		private int key;
-		private int value;
-		public Node(int key, int value)
-		{
-			this.key = key;
-			this.value = value;
-		}
-		
-	}
+	
+	
 	private int[] seam()
 	{
-		
-		double[][] distTo= new double[width()][height()];
-		int[] prev= new int[width()*height()];
-		
-		
-		double[][] energy= new double[width()][height()];
-		ArrayList<Node> topological= new ArrayList<Node>();
-		for(int i=0; i<width(); i++)
-		{
-			for(int j=0; j<height(); j++)
-			{
-				distTo[i][j]=Integer.MAX_VALUE;
-				prev[i+j]=-1;
-				energy[i][j]=energy(i,j);
-				topological.add(new Node(i,j));
-			}
-		}
-	
-		while(topological.iterator().hasNext())
-		{
-			Node next=topological.iterator().next();
-			//check (x,y+1) (x+1,y+1), (x-1, y+1)
-			for(int i=-1; i<2; i++)
-			{
-				Node use=new Node(next.key+i,next.value+1);
-				double dis= distTo[next.key][next.value]+energy(next.key+i,next.value+1);
-				if(distTo[next.key+i][next.value+1]>dis)
-				{
-					distTo[next.key+i][next.value+1]=dis;
-					prev[next.key+i+next.value+1]=next.key;
-				}
-			}
-			
-			
-			
-		}
-		
-		return prev;
-		
-		
-		
-	}
-	private int[] hori()
-	{
-		double[][] distTo= new double[height()][width()];
-		int[] prev= new int[width()*height()];
+		double[] distTo= new double[height()];
+		int[] prev= new int[height()];
 		
 		
 		double[][] energy= new double[height()][width()];
-		ArrayList<Node> topological= new ArrayList<Node>();
-		for(int i=0; i<width(); i++)
+		
+		
+		for(int i=0; i<height(); i++)
 		{
-			for(int j=0; j<height(); j++)
-			{
-				distTo[i][j]=Integer.MAX_VALUE;
-				prev[i+j]=-1;
-				energy[i][j]=energy(i,j);
-				topological.add(new Node(i,j));
-			}
+			distTo[i]=Double.POSITIVE_INFINITY;
+			prev[i]=-1;
 		}
-	
-		while(topological.iterator().hasNext())
+		distTo[0]=0;
+
+		int upper=-1; 
+		int lower=2;
+		for(int j=0; j<height()-1; j++)
 		{
-			Node next=topological.iterator().next();
-			//check (x,y+1) (x+1,y+1), (x-1, y+1)
-			for(int i=-1; i<2; i++)
+			for(int i=0; i<width(); i++)
 			{
-				Node use=new Node(next.key+i,next.value+1);
-				double dis= distTo[next.key][next.value]+energy(next.key+i,next.value+1);
-				if(distTo[next.key+i][next.value+1]>dis)
+				if(i==0)
 				{
-					distTo[next.key+i][next.value+1]=dis;
-					prev[next.key+i+next.value+1]=next.key;
+					upper++;
+				}
+				if(i==width()-1)
+				{
+					lower--;
+				}
+				for(int k=upper; k<lower; k++)
+				{
+					double newdis= distTo[j]+energy(i+k,j+1);
+					if(distTo[j+1]>newdis)
+					{
+						distTo[j+1]=newdis;
+						prev[j+1]=j;
+					}
 				}
 			}
-			
-			
-			
 		}
 		
 		return prev;
