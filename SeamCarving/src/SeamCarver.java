@@ -52,21 +52,28 @@ public class SeamCarver
 	
 	private int[] seam()
 	{
-		double[] distTo= new double[height()];
+		
+		double[][] energy=new double[width()][height()];
+		double[][]distTo= new double[width()][height()];
 		int[] prev= new int[height()];
-		
-		
-		double[][] energy= new double[height()][width()];
-		
-		
-		for(int i=0; i<height(); i++)
+		for(int i=0; i<width(); i++)
 		{
-			distTo[i]=Double.POSITIVE_INFINITY;
-			prev[i]=-1;
+			for(int j=0; j<height(); j++)
+			{
+				energy[i][j]=energy(i,j);
+				distTo[i][j]=Double.POSITIVE_INFINITY;
+			}
 		}
-		distTo[0]=0;
-
-		int upper=-1; 
+		for(int i=0; i<width(); i++)
+		{
+			distTo[i][0]=0.0;
+		}
+		for(int j=0; j<height(); j++)
+		{
+			prev[j]=-1;
+		}
+		
+		int upper=-1;
 		int lower=2;
 		for(int j=0; j<height()-1; j++)
 		{
@@ -74,24 +81,30 @@ public class SeamCarver
 			{
 				if(i==0)
 				{
-					upper++;
+					upper=0;
+					lower=2;
 				}
 				if(i==width()-1)
 				{
-					lower--;
+					upper=-1;
+					lower=1;
+				}
+				if(i!=0&&i!=width()-1)
+				{
+					upper=-1;
+					lower=2;
 				}
 				for(int k=upper; k<lower; k++)
 				{
-					double newdis= distTo[j]+energy(i+k,j+1);
-					if(distTo[j+1]>newdis)
+					double newdis=distTo[i][j]+energy[i+k][j+1];
+					if(distTo[i+k][j+1]>newdis)
 					{
-						distTo[j+1]=newdis;
-						prev[j+1]=j;
+						distTo[i+k][j+1]= newdis;
+						prev[j+1]=i;
 					}
 				}
 			}
 		}
-		
 		return prev;
 		
 	}
