@@ -117,39 +117,56 @@ public class SeamCarver
 		prev[height()-1]=end;
 		for(int i=height()-2; i>-1; i--)
 		{
-			int a=end;
-			if(i==0)
+			if(end==0)
 			{
 				upper=0;
 				lower=2;
 			}
-			if(i==width()-1)
+			if(end==width()-1)
 			{
 				upper=-1;
 				lower=1;
 			}
-			if(i!=0&&i!=width()-1)
+			if(end!=0&&end!=width()-1)
 			{
 				upper=-1;
 				lower=2;
 			}
-			mindis=mindis+distTo[end+upper][i];
-
-			for(int k=upper+1; k<lower; k++)
+			mindis=distTo[end][i];
+			int a=end;
+			prev[i]=end;
+			for(int k=upper; k<lower; k++)
 			{
 				if(distTo[end+k][i]<mindis)
 				{
 					prev[i]=end+k;
-					end=end+k;
+					a=end+k;
 				}
 			}
+			end=a;
 		}
 		return prev;
 		
 	}
 	public int[] findHorizontalSeam()
 	{
-		throw new UnsupportedOperationException();
+		SmC_Picture end= new SmC_Picture(pic);
+		SmC_Picture picture=new SmC_Picture(pic.height(),pic.width());
+		for(int i=0; i<picture.width(); i++)
+		{
+			for(int j=0; j<picture.height(); j++)
+			{
+				picture.set(i, j, pic.get(j, i));
+			}
+		}
+		
+		this.pic=picture;
+		
+		int[] result=findVerticalSeam();
+		
+		this.pic=end;
+		
+		return result;
 	}
 
 	public int[] findVerticalSeam()
