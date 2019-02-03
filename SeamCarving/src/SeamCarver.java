@@ -100,8 +100,47 @@ public class SeamCarver
 					if(distTo[i+k][j+1]>newdis)
 					{
 						distTo[i+k][j+1]= newdis;
-						prev[j+1]=i;
 					}
+				}
+			}
+		}
+		double mindis=distTo[0][height()-1];
+		int end=0;
+		for(int i=1; i< width(); i++)
+		{
+			if(distTo[i][height()-1]<mindis)
+			{
+				mindis=distTo[i][height()-1];
+				end=i;
+			}
+		}
+		prev[height()-1]=end;
+		for(int i=height()-2; i>-1; i--)
+		{
+			int a=end;
+			if(i==0)
+			{
+				upper=0;
+				lower=2;
+			}
+			if(i==width()-1)
+			{
+				upper=-1;
+				lower=1;
+			}
+			if(i!=0&&i!=width()-1)
+			{
+				upper=-1;
+				lower=2;
+			}
+			mindis=mindis+distTo[end+upper][i];
+
+			for(int k=upper+1; k<lower; k++)
+			{
+				if(distTo[end+k][i]<mindis)
+				{
+					prev[i]=end+k;
+					end=end+k;
 				}
 			}
 		}
