@@ -100,11 +100,15 @@ public class SeamCarver
 					if(distTo[i+k][j+1]>newdis)
 					{
 						distTo[i+k][j+1]= newdis;
+						prev[j+1]=i+k;
 					}
 				}
-			}
+				
+			}	
 		}
-		double mindis=distTo[0][height()-1];
+		
+		
+		/*double mindis=distTo[0][height()-1];
 		int end=0;
 		for(int i=1; i< width(); i++)
 		{
@@ -115,7 +119,7 @@ public class SeamCarver
 			}
 		}
 		prev[height()-1]=end;
-		for(int i=height()-2; i>-1; i--)
+		/*(for(int i=height()-2; i>-1; i--)
 		{
 			if(end==0)
 			{
@@ -144,7 +148,7 @@ public class SeamCarver
 				}
 			}
 			end=a;
-		}
+		}*/
 		return prev;
 		
 	}
