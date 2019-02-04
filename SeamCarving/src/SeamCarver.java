@@ -75,6 +75,7 @@ public class SeamCarver
 		
 		int upper=-1;
 		int lower=2;
+		double temp=Double.POSITIVE_INFINITY;
 		for(int j=0; j<height()-1; j++)
 		{
 			for(int i=0; i<width(); i++)
@@ -94,17 +95,30 @@ public class SeamCarver
 					upper=-1;
 					lower=2;
 				}
+				double temp2=distTo[i][j]+energy[i][j+1];
+				int track=i;
 				for(int k=upper; k<lower; k++)
 				{
 					double newdis=distTo[i][j]+energy[i+k][j+1];
 					if(distTo[i+k][j+1]>newdis)
 					{
 						distTo[i+k][j+1]= newdis;
-						prev[j+1]=i+k;
 					}
+					if(newdis<temp2)
+					{
+						temp2=newdis;
+						track=i+k;
+					}
+					
+				}
+				if(temp>temp2)
+				{
+					temp=temp2;
+					prev[j+1]=track;
 				}
 				
-			}	
+			}
+			temp=Double.POSITIVE_INFINITY;
 		}
 		
 		
@@ -149,6 +163,18 @@ public class SeamCarver
 			}
 			end=a;
 		}*/
+		if(prev[1]==width()-1)
+		{
+			prev[0]=width()-2;
+		}
+		if(prev[1]==0)
+		{
+			prev[0]=1;
+		}
+		if(prev[1]!=width()-1&&prev[1]!=0)
+		{
+			prev[0]=prev[1]-1;
+		}
 		return prev;
 		
 	}
