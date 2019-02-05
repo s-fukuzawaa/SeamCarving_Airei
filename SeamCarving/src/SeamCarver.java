@@ -124,7 +124,7 @@ public class SeamCarver
 				
 			}
 		}
-		Node a=new Node(0,0);
+		Node a=new Node(0,height()-1);
 		double temp=distTo[0][height()-1];
 		for(int i=1; i<width(); i++)
 		{
@@ -180,6 +180,7 @@ public class SeamCarver
 				picture.set(i, j, pic.get(j, i));
 			}
 		}
+		
 		
 		this.pic=picture;
 		
