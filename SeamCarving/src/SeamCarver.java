@@ -55,7 +55,7 @@ public class SeamCarver
 		
 		double[][] energy=new double[width()][height()];
 		double[][]distTo= new double[width()][height()];
-		int[] prev= new int[height()];
+		int[] prev= new int[(height()+1)*(width()+1)];
 		for(int i=0; i<width(); i++)
 		{
 			for(int j=0; j<height(); j++)
@@ -68,14 +68,14 @@ public class SeamCarver
 		{
 			distTo[i][0]=0.0;
 		}
-		for(int j=0; j<height(); j++)
+		for(int j=0; j<(height()+1)*(width()+1); j++)
 		{
 			prev[j]=-1;
 		}
 		
 		int upper=-1;
 		int lower=2;
-		double temp=Double.POSITIVE_INFINITY;
+		int end=0;
 		for(int j=0; j<height()-1; j++)
 		{
 			for(int i=0; i<width(); i++)
@@ -95,87 +95,58 @@ public class SeamCarver
 					upper=-1;
 					lower=2;
 				}
-				double temp2=distTo[i][j]+energy[i][j+1];
-				int track=i;
 				for(int k=upper; k<lower; k++)
 				{
 					double newdis=distTo[i][j]+energy[i+k][j+1];
 					if(distTo[i+k][j+1]>newdis)
 					{
 						distTo[i+k][j+1]= newdis;
-					}
-					if(newdis<temp2)
-					{
-						temp2=newdis;
-						track=i+k;
+						prev[width()*(i+k)+(j+1)]=width()*i+j;
 					}
 					
 				}
-				if(temp>temp2)
-				{
-					temp=temp2;
-					prev[j+1]=track;
-				}
 				
 			}
-			temp=Double.POSITIVE_INFINITY;
 		}
-		
-		
-		/*double mindis=distTo[0][height()-1];
-		int end=0;
-		for(int i=1; i< width(); i++)
+		double dis=distTo[0][height()-1];
+		int a=0;
+		for(int i=1; i<width(); i++)
 		{
-			if(distTo[i][height()-1]<mindis)
+			if(distTo[i][height()-1]<dis)
 			{
-				mindis=distTo[i][height()-1];
-				end=i;
+				a=i;
+				dis=distTo[i][height()-1];
 			}
 		}
-		prev[height()-1]=end;
-		/*(for(int i=height()-2; i>-1; i--)
+		Stack<Integer> t= new Stack<Integer>();
+		int cur=a*width()+height()-1;
+		while(prev[cur]!=-1)
 		{
-			if(end==0)
-			{
-				upper=0;
-				lower=2;
-			}
-			if(end==width()-1)
-			{
-				upper=-1;
-				lower=1;
-			}
-			if(end!=0&&end!=width()-1)
-			{
-				upper=-1;
-				lower=2;
-			}
-			mindis=distTo[end][i];
-			int a=end;
-			prev[i]=end;
-			for(int k=upper; k<lower; k++)
-			{
-				if(distTo[end+k][i]<mindis)
-				{
-					prev[i]=end+k;
-					a=end+k;
-				}
-			}
-			end=a;
-		}*/
-		if(prev[1]==width()-1)
-		{
-			prev[0]=width()-2;
+			t.push((cur-cur%width())/width());
+			cur= prev[cur];
 		}
-		if(prev[1]==0)
+		int[] result= new int[height()];
+		for(int i=1; i<height(); i++)
 		{
-			prev[0]=1;
+			if(t.isEmpty())
+			{
+				break;
+			}
+			result[i]=t.pop();
 		}
-		if(prev[1]!=width()-1&&prev[1]!=0)
+		if(result[1]==0)
 		{
-			prev[0]=prev[1]-1;
+			result[0]=1;
 		}
-		return prev;
+		if(result[1]==width()-1)
+		{
+			result[0]=width()-2;
+		}
+		if(result[1]!=width()-1&&result[1]!=0)
+		{
+			result[0]=result[1]-1;
+		}
+		return result;
 		
 	}
 	public int[] findHorizontalSeam()
