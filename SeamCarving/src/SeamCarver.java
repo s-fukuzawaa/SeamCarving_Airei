@@ -199,36 +199,48 @@ public class SeamCarver
 
 	public void removeHorizontalSeam(int[] a)
 	{
+		SmC_Picture h=new SmC_Picture(pic.width(),pic.height()-1);
 		int[] hseam=findHorizontalSeam();
-		for(int i=0; i<height(); i++)
+		
+		for(int j=0; j<width(); j++)
 		{
-			pic.set(i, hseam[i], null);
-		}
-		for(int i=0; i<hseam.length; i++)
-		{
-			for(int j=hseam[i]+1; j<height(); j++)
+			for(int i=0; i<hseam[j]; i++)
 			{
-				pic.set(i, j-1, pic.get(i, j));
+				h.set(j, i, pic.get(j, i));
 			}
 		}
 		
+		for(int j=0; j<height(); j++)
+		{
+			for(int i=hseam[j]; i<height()-1; i++)
+			{
+				h.set(j, i, pic.get(j, i+1));
+			}
+		}
+		this.pic=h;
 		
 	}
 
 	public void removeVerticalSeam(int[] a)
 	{
+		SmC_Picture v=new SmC_Picture(pic.width()-1, pic.height());
 		int[] vseam=findVerticalSeam();
-		for(int i=0; i<height(); i++)
+		for(int j=0; j<height(); j++)
 		{
-			pic.set(vseam[i], i, null);
-		}
-		for(int i=0; i<vseam.length; i++)
-		{
-			for(int j=vseam[i]+1; j<width(); j++)
+			for(int i=0; i<vseam[j]; i++)
 			{
-				pic.set(j-1, i, pic.get(j, i));
+				v.set(i, j, pic.get(i, j));
 			}
 		}
+		
+		for(int j=0; j<height(); j++)
+		{
+			for(int i=vseam[j]; i<width()-1; i++)
+			{
+				v.set(i, j, pic.get(i+1, j));
+			}
+		}
+		this.pic=v;
 	}
 	
 	
