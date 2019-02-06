@@ -199,12 +199,26 @@ public class SeamCarver
 
 	public void removeHorizontalSeam(int[] a)
 	{
+		if(a.length!=width())
+		{
+			throw new java.lang.IllegalArgumentException();
+		}
+		
+		for(int i=0; i<a.length; i++)
+		{
+			if(a[i]>height()-1||a[i]<0)
+			{
+				throw new java.lang.IllegalArgumentException();
+			}
+		}
+		
+		
+		
 		SmC_Picture h=new SmC_Picture(pic.width(),pic.height()-1);
-		int[] hseam=findHorizontalSeam();
 		
 		for(int j=0; j<width(); j++)
 		{
-			for(int i=0; i<hseam[j]; i++)
+			for(int i=0; i<a[j]; i++)
 			{
 				h.set(j, i, pic.get(j, i));
 			}
@@ -212,7 +226,7 @@ public class SeamCarver
 		
 		for(int j=0; j<width(); j++)
 		{
-			for(int i=hseam[j]; i<height()-1; i++)
+			for(int i=a[j]; i<height()-1; i++)
 			{
 				h.set(j, i, pic.get(j, i+1));
 			}
@@ -223,11 +237,24 @@ public class SeamCarver
 
 	public void removeVerticalSeam(int[] a)
 	{
+		if(a.length!=height())
+		{
+			throw new java.lang.IllegalArgumentException();
+		}
+		
+		for(int i=0; i<a.length; i++)
+		{
+			if(a[i]>width()-1||a[i]<0)
+			{
+				throw new java.lang.IllegalArgumentException();
+			}
+		}
+		
+		
 		SmC_Picture v=new SmC_Picture(pic.width()-1, pic.height());
-		int[] vseam=findVerticalSeam();
 		for(int j=0; j<height(); j++)
 		{
-			for(int i=0; i<vseam[j]; i++)
+			for(int i=0; i<a[j]; i++)
 			{
 				v.set(i, j, pic.get(i, j));
 			}
@@ -235,7 +262,7 @@ public class SeamCarver
 		
 		for(int j=0; j<height(); j++)
 		{
-			for(int i=vseam[j]; i<width()-1; i++)
+			for(int i=a[j]; i<width()-1; i++)
 			{
 				v.set(i, j, pic.get(i+1, j));
 			}
