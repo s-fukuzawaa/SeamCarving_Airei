@@ -199,7 +199,8 @@ public class SeamCarver
 
 	public void removeHorizontalSeam(int[] a)
 	{
-		if(a.length!=width())
+		
+		if(a.length!=width()||pic.height()<=1)
 		{
 			throw new java.lang.IllegalArgumentException();
 		}
@@ -237,7 +238,9 @@ public class SeamCarver
 
 	public void removeVerticalSeam(int[] a)
 	{
-		if(a.length!=height())
+		
+		
+		if(a.length!=height()||pic.width()<=1)
 		{
 			throw new java.lang.IllegalArgumentException();
 		}
