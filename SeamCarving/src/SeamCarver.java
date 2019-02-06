@@ -210,14 +210,14 @@ public class SeamCarver
 			}
 		}
 		
-		for(int j=0; j<height(); j++)
+		for(int j=0; j<width(); j++)
 		{
 			for(int i=hseam[j]; i<height()-1; i++)
 			{
 				h.set(j, i, pic.get(j, i+1));
 			}
 		}
-		this.pic=h;
+		this.pic=new SmC_Picture(h);
 		
 	}
 
@@ -240,7 +240,7 @@ public class SeamCarver
 				v.set(i, j, pic.get(i+1, j));
 			}
 		}
-		this.pic=v;
+		this.pic=new SmC_Picture(v);
 	}
 	
 	
