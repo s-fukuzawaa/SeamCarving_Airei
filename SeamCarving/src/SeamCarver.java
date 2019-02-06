@@ -199,12 +199,36 @@ public class SeamCarver
 
 	public void removeHorizontalSeam(int[] a)
 	{
-		throw new UnsupportedOperationException();
+		int[] hseam=findHorizontalSeam();
+		for(int i=0; i<height(); i++)
+		{
+			pic.set(i, hseam[i], null);
+		}
+		for(int i=0; i<hseam.length; i++)
+		{
+			for(int j=hseam[i]+1; j<height(); j++)
+			{
+				pic.set(i, j-1, pic.get(i, j));
+			}
+		}
+		
+		
 	}
 
 	public void removeVerticalSeam(int[] a)
 	{
-		throw new UnsupportedOperationException();
+		int[] vseam=findVerticalSeam();
+		for(int i=0; i<height(); i++)
+		{
+			pic.set(vseam[i], i, null);
+		}
+		for(int i=0; i<vseam.length; i++)
+		{
+			for(int j=vseam[i]+1; j<width(); j++)
+			{
+				pic.set(j-1, i, pic.get(j, i));
+			}
+		}
 	}
 	
 	
