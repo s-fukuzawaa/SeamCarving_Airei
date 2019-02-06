@@ -199,6 +199,10 @@ public class SeamCarver
 
 	public void removeHorizontalSeam(int[] a)
 	{
+		if(a==null||pic==null)
+		{
+			throw new java.lang.NullPointerException();
+		}
 		
 		if(a.length!=width()||pic.height()<=1)
 		{
@@ -238,7 +242,10 @@ public class SeamCarver
 
 	public void removeVerticalSeam(int[] a)
 	{
-		
+		if(a==null||pic==null)
+		{
+			throw new java.lang.NullPointerException();
+		}
 		
 		if(a.length!=height()||pic.width()<=1)
 		{
