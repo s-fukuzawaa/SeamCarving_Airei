@@ -213,26 +213,29 @@ public class SeamCarver
 			}
 		}
 		
-		
-		
-		SmC_Picture h=new SmC_Picture(pic.width(),pic.height()-1);
-		
-		for(int j=0; j<width(); j++)
+		SmC_Picture picture=new SmC_Picture(pic.height(),pic.width());
+		for(int i=0; i<picture.width(); i++)
 		{
-			for(int i=0; i<a[j]; i++)
+			for(int j=0; j<picture.height(); j++)
 			{
-				h.set(j, i, pic.get(j, i));
+				picture.set(i, j, pic.get(j, i));
 			}
 		}
 		
-		for(int j=0; j<width(); j++)
+		
+		this.pic=picture;
+		removeVerticalSeam(a);
+		SmC_Picture result=new SmC_Picture(pic.height(),pic.width());
+
+		for(int i=0; i<pic.width(); i++)
 		{
-			for(int i=a[j]; i<height()-1; i++)
+			for(int j=0; j<pic.height(); j++)
 			{
-				h.set(j, i, pic.get(j, i+1));
+				picture.set(i, j, pic.get(j, i));
 			}
 		}
-		this.pic=new SmC_Picture(h);
+		
+		this.pic=result;
 		
 	}
 
