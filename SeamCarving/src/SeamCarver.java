@@ -213,6 +213,8 @@ public class SeamCarver
 			}
 		}
 		
+		
+		
 		SmC_Picture picture=new SmC_Picture(pic.height(),pic.width());
 		for(int i=0; i<picture.width(); i++)
 		{
@@ -222,20 +224,17 @@ public class SeamCarver
 			}
 		}
 		
-		
-		this.pic=picture;
+		this.pic=new SmC_Picture(picture);
 		removeVerticalSeam(a);
 		SmC_Picture result=new SmC_Picture(pic.height(),pic.width());
-
-		for(int i=0; i<pic.width(); i++)
+		for(int i=0; i<picture.width(); i++)
 		{
-			for(int j=0; j<pic.height(); j++)
+			for(int j=0; j<picture.height(); j++)
 			{
-				picture.set(i, j, pic.get(j, i));
+				result.set(i, j, pic.get(j, i));
 			}
 		}
-		
-		this.pic=result;
+		this.pic= new SmC_Picture(result);
 		
 	}
 
