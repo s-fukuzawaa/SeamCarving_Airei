@@ -211,12 +211,15 @@ public class SeamCarver
 		
 		for(int i=0; i<a.length; i++)
 		{
-			if(a[i]>height()-1||a[i]<0)
+			if(a[i]>height()-1||a[i]<0||a[i+1]+1<a[i]||a[i+1]-1>a[i])
 			{
 				throw new java.lang.IllegalArgumentException();
 			}
 		}
-		
+		if(a[a.length-1]>height()-1||a[a.length-1]<0)
+		{
+			throw new java.lang.IllegalArgumentException();
+		}
 		
 		
 		SmC_Picture h=new SmC_Picture(pic.width(),pic.height()-1);
@@ -252,12 +255,16 @@ public class SeamCarver
 			throw new java.lang.IllegalArgumentException();
 		}
 		
-		for(int i=0; i<a.length; i++)
+		for(int i=0; i<a.length-1; i++)
 		{
-			if(a[i]>width()-1||a[i]<0)
+			if(a[i]>width()-1||a[i]<0||a[i+1]+1<a[i]||a[i+1]-1>a[i])
 			{
 				throw new java.lang.IllegalArgumentException();
 			}
+		}
+		if(a[a.length-1]>width()-1||a[a.length-1]<0)
+		{
+			throw new java.lang.IllegalArgumentException();
 		}
 		
 		
